@@ -1,12 +1,14 @@
-FROM statwonk/rocker
+FROM dockr:r-base
 
-MAINTAINER Winston Chang "winston@rstudio.com"
+MAINTAINER Christopher Peters "cpeter9@gmail.com"
 
 RUN apt-get update && apt-get install -y \
     sudo \
     gdebi-core \
-    libcurl3-gnutls \
+    pandoc \
+    pandoc-citeproc \
     libcurl4-gnutls-dev \
+    libcairo2-dev \
     libxt-dev
 
 # Download and install libssl 0.9.8
@@ -21,12 +23,14 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
     gdebi -n ss-latest.deb && \
     rm -f version.txt ss-latest.deb
 
-RUN R -e "install.packages(c('shiny', 'rmarkdown'), repos='http://cran.rstudio.com/')"
+RUN R --no-save -e "install.packages(c('shiny', 'rmarkdown'), repos='http://cran.rstudio.com/')"
 
 RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
 EXPOSE 3838
 
 COPY shiny-server.sh /usr/bin/shiny-server.sh
+RUN chown docker:docker /usr/bin/shiny-server.sh
+RUN chmod +x /usr/bin/shiny-server.sh
 
 CMD ["/usr/bin/shiny-server.sh"]
