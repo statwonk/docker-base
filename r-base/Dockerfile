@@ -18,8 +18,9 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 ## Set a default CRAN repo
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
+RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list \
+        && apt-get update \
+	&& apt-get install -y --force-yes --no-install-recommends \
 		r-base-dev \
         && echo 'options(repos = list(CRAN = "http://cran.rstudio.com/"))' >> /etc/R/Rprofile.site \
 	&& rm -rf /var/lib/apt/lists/*
