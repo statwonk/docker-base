@@ -1,4 +1,4 @@
-FROM dockr:utilities
+FROM statwonk/dockr:utilities
 
 MAINTAINER "Christopher Peters" cpeter9@gmail.com
 

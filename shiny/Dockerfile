@@ -1,4 +1,4 @@
-FROM dockr:r-base
+FROM statwonk/dockr:r-base
 
 MAINTAINER Christopher Peters "cpeter9@gmail.com"
 
